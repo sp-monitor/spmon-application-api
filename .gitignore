@@ -1,0 +1,4 @@
+/docker-data
+/docker-data/**/*
+spmon-application-api
+/certs/*.*
