@@ -9,6 +9,7 @@ import (
 func main() {
 	db := mysqlConnect()
 	defer db.Close()
+	go writeModuleData()
 	// select all hosts and print the results
 	hosts, err := db.Query("SELECT * FROM hosts")
 	if err != nil {

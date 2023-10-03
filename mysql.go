@@ -2,6 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"context"
+	"fmt"
+	"github.com/redis/go-redis/v9"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -60,5 +63,29 @@ func createTables(db *sql.DB) {
 		if err != nil {
 			panic(err.Error())
 		}
+	}
+}
+
+func writeModuleData() {
+	//Subscribe to redis channel
+	client := redis.NewClient(&redis.Options{
+		Addr: "localhost:6380",
+		DB: 0,
+	})
+
+	ctx := context.Background()
+
+	pubsub := client.Subscribe(ctx, "module_data")
+
+	defer pubsub.Close()
+
+	for {
+		msg, err := pubsub.ReceiveMessage(ctx)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(msg.Channel, msg.Payload, " from redis")
+
+		//todo: write to data receieved from redis to mysql
 	}
 }

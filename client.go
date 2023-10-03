@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"net/http"
 )
 
@@ -30,12 +30,13 @@ http.HandleFunc("/client/data", func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Do something with the request data
-	fmt.Printf("Received request with module=%s, client_id=%s, datetime=%s\n", requestData.Module, requestData.ClientID, requestData.DateTime)
-	fmt.Printf("Data: %v\n", requestData.Data)
+	// fmt.Printf("Received request with module=%s, client_id=%s, datetime=%s\n", requestData.Module, requestData.ClientID, requestData.DateTime)
+	// fmt.Printf("Data: %v\n", requestData.Data)
 
 	// Send a response
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Request received"))
+	w.Write([]byte("OK"))
 
+	writeCache(requestData)
 })
 }
